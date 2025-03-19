@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 export default function BaiTap2() {
     const inputRef = useRef("")
     const [todo, setTodo] = useState([])
     const [editItem, setEditItem] = useState(-1)
 
-    const handleAdd = () => {
+    const handleAdd = useCallback(() => {
         const value = inputRef.current.value
         console.log(value)
         if(!value){
@@ -22,18 +22,18 @@ export default function BaiTap2() {
             setEditItem(-1);
             inputRef.current.value = ""
         }
-    }
+    })
 
     const handleEdit = (index) => {
         inputRef.current.value = todo[index];
         setEditItem(index);
       };
 
-    const handleDelete = (indexDelete) => {
+    const handleDelete = useCallback((indexDelete) => {
         const newTodos = todo.filter((item, index) => index != indexDelete)
         setTodo(newTodos)
         inputRef.current.value = ""
-    }
+    })
 
   return (
     <div>
