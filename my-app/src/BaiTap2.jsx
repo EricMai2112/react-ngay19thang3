@@ -10,11 +10,24 @@ export default function BaiTap2() {
         console.log(value)
         if(!value){
             alert("Vui lòng nhập công việc cần thêm")
+            return
+        }else if (editItem == -1){
+            setTodo([...todo, value])
+            inputRef.current.value = ""
+            inputRef.current.focus()
+        }else{
+            const newTodos = [...todo];
+            newTodos[editItem] = value;
+            setTodo(newTodos);
+            setEditItem(-1);
+            inputRef.current.value = ""
         }
-        setTodo([...todo, value])
-        inputRef.current.value = ""
-        inputRef.current.focus()
     }
+
+    const handleEdit = (index) => {
+        inputRef.current.value = todo[index];
+        setEditItem(index);
+      };
 
     const handleDelete = (indexDelete) => {
         const newTodos = todo.filter((item, index) => index != indexDelete)
@@ -31,7 +44,7 @@ export default function BaiTap2() {
                 <input ref ={inputRef} className='border p-2 rounded-2xl mt-5 w-100' type="text" />
                 <button onClick={handleAdd} className=
                 "ml-3 border rounded-2xl p-3 bg-blue-600 text-amber-5 font-bold text-amber-50 cursor-pointer"
-                >Thêm</button>
+                >{editItem==-1 ? "Thêm" : "Lưu"}</button>
             </div>
             <div className='flex flex-col mt-5'>
                 <div>
@@ -42,7 +55,7 @@ export default function BaiTap2() {
                                 <span>{item}</span>
                                 <div className=' flex gap-2'>
                                     <button onClick={() => handleDelete(index)} className='cursor-pointer border bg-red-600 p-2 rounded-xl text-amber-50'>Xóa</button>
-                                    <button className='cursor-pointer border bg-green-600 p-2 rounded-xl text-amber-50'>Sửa</button>
+                                    <button onClick={() => handleEdit(index)} className='cursor-pointer border bg-green-600 p-2 rounded-xl text-amber-50'>Sửa</button>
                                 </div>
                             </div>
                         )
